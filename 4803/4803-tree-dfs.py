@@ -31,10 +31,12 @@ def findCycle(start):
         if parent[start] == adjustNode:
             continue
 
-        # 인접 노드가 부모 노드가 아닌데 방문 이력이 있다는 것은 곧 사이클을 의미
+        # 인접 노드가 이미 방문된 경우를 확인하고 사이클이 발견된 것으로 간주하고 True 리턴
         if visited[adjustNode]:
             return True
         
+        # start 매개변수 노드를 인접 노드의 부모 노드로 설정
+        # 이후 인접 노드의 visited를 1 (True)로 설정
         parent[adjustNode] = start
         visited[adjustNode] = 1
 
@@ -43,6 +45,7 @@ def findCycle(start):
         사이클이 존재하면 곧 전체 트리에 사이클이 존재하는 것과 같음
         '''
 
+        # 재귀 호출을 통해 탐색을 계속 진행, 사이클이 발견되면 True 리턴
         if findCycle(adjustNode):
             return True
         
@@ -54,10 +57,13 @@ case = 1
 while n != 0 or m != 0:
     graph = [[] for _ in range(n + 1)]
     parent = [-1] * (n + 1)
-    visited = [0] * (n + 1)
+    visited = [0] * (n + 1) # 0 = False, 1 = True
     count = 0
 
     # 양 방향 매핑
+    # 2-3
+    # a = 2, b = 3
+    # a = 3, b = 2
     for _ in range(m):
         a, b = map(int, input().split())
         graph[a].append(b)
@@ -69,6 +75,7 @@ while n != 0 or m != 0:
         if visited[node] == 0:
             parent[node] = node
             visited[node] = 1
+            # 사이클이 없는 경우 (트리인 경우) count 증가
             if not findCycle(node):
                 count += 1
     

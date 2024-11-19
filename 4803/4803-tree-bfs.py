@@ -33,7 +33,7 @@ def findCycle(start):
     q.append(start)
 
     while q:
-        currentNode = q.popleft()
+        currentNode = q.popleft() # 큐에서 노드를 뽑는다.
 
         '''
         노드를 큐에서 뽑았을 때 visited를 갱신
@@ -46,12 +46,15 @@ def findCycle(start):
         이제 큐에는 2에서 넣은 3이 아직 남아있고 이 것을 뽑았을 때
         visited[3]이 이미 1이므로 사이클로 판정
         '''
+        # 현재 노드가 visited가 1 (True) 인 경우 isCycle을 True로 설정
         if visited[currentNode]:
             isCycle = True
         
-        visited[currentNode] = 1
+        visited[currentNode] = 1 # 현재 노드에 방문했으므로 visited를 1로 설정
 
+        # 현재 노드의 인접 노드 탐색
         for adjustNode in graph[currentNode]:
+            # 인접 노드의 visited가 0인 경우 큐에 넣는다.
             if visited[adjustNode] == 0:
                 q.append(adjustNode)
     
@@ -71,10 +74,10 @@ while n != 0 or m != 0:
         graph[a].append(b)
         graph[b].append(a)
 
-    # visited가 0인 모든 노드를 돌면서
-    # 가능한 모든 연결 요소 (연결 그래프)를 순회
+    # visited가 0인 모든 노드를 돌면서 가능한 모든 연결 요소 (연결 그래프)를 순회
     for node in range(1, n + 1):
         if visited[node] == 0:
+            # 사이클이 없는 경우 (즉, 트리인 경우) count 증가
             if not findCycle(node):
                 count += 1
 
